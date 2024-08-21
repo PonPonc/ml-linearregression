@@ -1,4 +1,8 @@
+
+
 function setup(){
+    const tf = require('@tensorflow/tfjs');
+
     noCanvas();
     const model = tf.tensor2d([2,23,4,15,6,6], [2,3], 'int32')
 
@@ -7,8 +11,9 @@ function setup(){
             console.log(data);
         }
     ));
-}
-
-function draw(){
 
 }
+
+// function draw(){
+
+// }
