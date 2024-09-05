@@ -15,14 +15,12 @@ function setup(){
 }
 
 function loss(pred, labels){
-    return pred.sub(labels).squared().mean()
+    return pred.sub(labels).square().mean()
 }
 
-function predict(x_vals){
-    const xs = tensor1d(x_vals);
-    const y_vals = xs.mul(m).add(b)
-    console.log(y_vals.data())
-    return y_vals = xs.mul(m).add(b);
+function predict(x_val){
+    let xs = tf.tensor1d(x_val);
+    return xs.mul(m).add(b);
 }
 
 function mousePressed(){
@@ -33,21 +31,43 @@ function mousePressed(){
     x_vals.push(x);
     y_vals.push(y);
 
-
 }
 
 function draw(){
 
-    const ys = tf.tensor1d(y_vals)
-    optimizer.minimize(() => {loss(predict(x_vals), ys)});
+    tf.tidy(() => {
+        if (x_vals.length > 0){
+            const ys = tf.tensor1d(y_vals)
+            optimizer.minimize(() => loss(predict(x_vals), ys));
+        }
+    })
 
     background(0)
 
     stroke(255)
-    strokeWeight(4)
+    strokeWeight(10)
     for (let i = 0; i<x_vals.length; i++){
         let px = map(x_vals[i], 0, 1, 0, width)
-        let py = map(y_vals[i], 0, 1, height, 1)
+        let py = map(y_vals[i], 0, 1, height, 0)
         point(px,py)
     }
+
+
+    const tfx = [0,1]
+    const tfy = tf.tidy(() => predict(tfx))
+    
+    tfy.print()
+
+    let x1 = map(tfx[0],0,1,0, width)
+    let x2 = map(tfx[1],0,1,0, width)
+
+    let lineY = tfy.dataSync()
+   
+    let y1 = map(lineY[0],0,1,height,0)
+    let y2 = map(lineY[1],0,1,height,0)
+
+    tf.dispose(tfy)
+
+    line(x1,y1,x2,y2)
+    strokeWeight(2)
 }
