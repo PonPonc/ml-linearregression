@@ -4,7 +4,8 @@
   "main": "sketch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "model": "node test.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "node": "^22.6.0",
     "p5": "^1.10.0",
     "pango": "^0.0.3",
+    "papaparse": "^5.4.1",
     "pkg-config": "^1.1.1",
     "tensorflow_prac": "file:",
     "xlsx": "^0.18.5"
